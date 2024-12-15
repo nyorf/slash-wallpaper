@@ -1,0 +1,1 @@
+mfw hosting an image
