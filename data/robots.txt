@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /wallpaper
+Disallow: /your-custom-path

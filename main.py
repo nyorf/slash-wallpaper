@@ -23,6 +23,13 @@ async def getWallpaper(img: bool = False):
         return StreamingResponse(content=image_stream, media_type="image/jpg")
 
 
+@app.get(path="/robots.txt")
+@app.get(path="/robots")
+async def robots():
+    robots_file = io.FileIO('data/robots.txt', mode='r')
+    return StreamingResponse(content=robots_file, media_type="text/plain")
+
+
 @app.route("/{full_path:path}")
 async def catch_all(full_path: str):  # catch-all route
     response = {
