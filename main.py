@@ -1,6 +1,6 @@
 import logging
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi import Body, Cookie, File, Form, Header, Path, Query
 import io
 import base64
@@ -8,6 +8,7 @@ import cv2
 
 
 app = FastAPI()
+
 
 @app.get(path="/wallpaper")
 async def getWallpaper(img: bool = False):
@@ -20,3 +21,14 @@ async def getWallpaper(img: bool = False):
     else:
         image_stream = io.FileIO('data/wallpaper.jpg', mode='r')
         return StreamingResponse(content=image_stream, media_type="image/jpg")
+
+
+@app.route("/{full_path:path}")
+async def catch_all(full_path: str):  # catch-all route
+    response = {
+        "error": "This route is not available.",
+        "status_code": 404
+    }
+    return JSONResponse(
+        content=response,
+        status_code=404)
