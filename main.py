@@ -11,8 +11,10 @@ app = FastAPI()
 
 
 @app.get(path="/wallpaper")
-async def getWallpaper(img: bool = False):
-    if not img:
+async def getWallpaper(
+    img: bool = False,
+    image: bool = False):
+    if not img and not image:
         img = cv2.imread('data/wallpaper.jpg')
         jpg_img = cv2.imencode('.jpg', img)
         b64_string = base64.b64encode(jpg_img[1]).decode('utf-8')
