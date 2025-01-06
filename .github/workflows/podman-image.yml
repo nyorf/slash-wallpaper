@@ -3,27 +3,21 @@ name: Podman container build & run test
 on: [push]
 
 jobs:
-    install-podman:
+    build-container:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - name: Update apt repositories
               run: sudo apt update
-            - name: Install podman
-              run: sudo apt install podman
+            - name: Install podman & curl
+              run: sudo apt install podman curl -y
             - name: Build a podman container
               run: podman build -t slash-wallpaper .
-    build-container:
-        runs-on: ubuntu-latest
-        services:
-            service-name-1:
-                image: localhost/slash-wallpaper
-                ports:
-                    - 8000:8000
-        steps:
-            - name: Log the step container node version
-              uses: docker://slash-wallpaper
-              with:
-                entrypoint: usr/local/bin/echo
-                args: -v
-
+            - name: Run the container
+              run: podman run --detach --name slash-wallpaper -p 8000:8000 localhost/slash-wallpaper
+            - name: Curl
+              run: ! curl -is http://127.0.0.1:8000/wallpaper | awk 'NR==1{print $2}' | grep -q 200
+            - name: Stop the container
+              run: podman container stop slash-wallpaper
+            - name: Remove the container
+              run: podman container rm slash-wallpaper
