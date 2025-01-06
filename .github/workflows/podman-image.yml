@@ -1,0 +1,15 @@
+name: Podman container build & run test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  install-podman:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: gacts/install-podman@v1.1.1
+        - run: podman build -t slash-wallpaper .
+        - run: podman run -p 8000:8000 localhost/slash-wallpaper
