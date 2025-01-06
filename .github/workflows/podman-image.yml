@@ -16,7 +16,7 @@ jobs:
             - name: Run the container
               run: podman run --detach --name slash-wallpaper -p 8000:8000 localhost/slash-wallpaper
             - name: Curl
-              run: ! curl -is http://127.0.0.1:8000/wallpaper | awk 'NR==1{print $2}' | grep -q 200
+              run: curl -is http://127.0.0.1:8000/wallpaper | awk 'NR==1{exit ($2 != 210)}' || exit 1
             - name: Stop the container
               run: podman container stop slash-wallpaper
             - name: Remove the container
