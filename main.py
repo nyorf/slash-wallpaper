@@ -1,7 +1,5 @@
-import logging
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse, JSONResponse
-from fastapi import Body, Cookie, File, Form, Header, Path, Query
 import io
 import base64
 import cv2
