@@ -17,10 +17,8 @@ jobs:
               run: podman run --detach --name slash-wallpaper -p 8000:8000 localhost/slash-wallpaper
             - name: Sleep for 5 seconds -- wait for the container to spin up
               run: sleep 5
-            - name: Curl test
-              run: curl http://127.0.0.1:8000/wallpaper
-            - name: Curl
-              run: curl -is http://127.0.0.1:8000/wallpaper | awk 'NR==1{exit ($2 != 210)}' || exit 1
+            - name: Curl and check status code
+              run: curl -is http://127.0.0.1:8000/wallpaper | awk 'NR==1{exit ($2 != 200)}' || exit 1
             - name: Stop the container
               run: podman container stop slash-wallpaper
             - name: Remove the container
