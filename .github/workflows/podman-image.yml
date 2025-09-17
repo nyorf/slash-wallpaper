@@ -5,6 +5,10 @@ on: [push]
 jobs:
     build-container:
         runs-on: self-hosted
+        container:
+            image: ubuntu:latest
+            ports:
+                - 8000
         steps:
             - uses: actions/checkout@v4
             - name: Update apt repositories
