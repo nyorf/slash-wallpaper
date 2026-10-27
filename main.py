@@ -30,7 +30,6 @@ async def robots():
     return StreamingResponse(content=robots_file, media_type="text/plain")
 
 
-@app.route("/{full_path:path}")
 async def catch_all(full_path: str):  # catch-all route
     response = {
         "error": "This route is not available.",
@@ -39,3 +38,6 @@ async def catch_all(full_path: str):  # catch-all route
     return JSONResponse(
         content=response,
         status_code=404)
+
+
+app.add_route("/{full_path:path}", catch_all)
